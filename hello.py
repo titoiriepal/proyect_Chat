@@ -7,15 +7,14 @@ app = Flask(__name__)
 posts = []
 
 
-def dataMoment():
+def getTime():
     now = (time.time()//1)
-    print(datetime.datetime.fromtimestamp(now).isoformat())
     return now
 
 
 def createJson(user, text):
     print(len(text))
-    time = dataMoment()
+    time = getTime()
     jsonData = {
         "user": user,
         "time": time,
@@ -36,14 +35,31 @@ def show_signup_form():
     if request.method == 'POST':
         name = (request.form['user']).lower()
         msg = request.form['text']
-        jsonData = createJson(name, msg)
+        if not validate(name, msg):
+            return render_template("signup_form.html")
+        jsonData = createJson(name, msg) #Guardamos el mensaje en un diccionario
+        posts.append(jsonData) # Añadimos el diccionario a una tabla
+        print(posts)
         next = request.args.get('next', None)
         if next:
             return redirect(next)
-        return redirect(url_for('index'))
-    return render_template("signup_form.html")
+        return render_template("signup_form.html", posts=posts)
+    return render_template("signup_form.html", posts=posts)
+
+
+def validate(name, msg):
+    
+    if len(name) > 50 or len(name) == 0:
+        return False
+    
+    if len(msg) > 65535 or len(msg) == 0:
+        return False
+    return True
+
+
+
 
 
 @app.route('/')
 def index():
-    return render_template("index.html", num_posts=len(posts))
+    return render_template("index.html", posts=posts)

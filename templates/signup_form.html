@@ -1,6 +1,11 @@
 {% extends "base_template.html" %}
 {% block title %}Registro de usuarios{% endblock %}
 {% block content %}
+<ul>
+    {% for post in posts -%}
+    <li>{{post['user']}} - {{post['text']}}</li>
+    {% endfor -%}
+</ul><br><br>
 <form action="" method="post">
     <label for="user">Nombre: </label>
     <input type="text" id="user" name="user" /><br>
@@ -8,4 +13,5 @@
     <input type="text" id="text" name="text" /><br>
     <input type="submit" id="send-signup" name="signup" value="Registrar" />
 </form>
+
 {% endblock %}
