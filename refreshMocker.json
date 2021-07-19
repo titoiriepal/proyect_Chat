@@ -1,0 +1,10 @@
+{
+    "mensajes": [
+        {"user": "Juan", "timestamp": 1626345321, "txt": "Buenas tardes gente"},
+        {"user": "Jose", "timestamp": 1626345332, "txt": "Buenas tardes Juan"},
+        {"user": "Juan", "timestamp": 1626345338, "txt": "Como tu por aqui?"},
+        {"user": "Jose", "timestamp": 1626345344, "txt": "Pues ya ves"},
+        {"user": "Jose", "timestamp": 1626345350, "txt": "Me voy"},
+        {"user": "Juan", "timestamp": 1626345355, "txt": "Pues hasta luego"}
+    ]
+}

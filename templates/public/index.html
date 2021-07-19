@@ -1,11 +1,13 @@
-{% extends "base_template.html" %}
-{% block title %}Registro de usuarios{% endblock %}
+{% extends "admin/base_template.html" %}
+{% block title %}Tutorial Flask: Miniblog{% endblock %}
 {% block content %}
+<h1 style="color: blue">Index</h1>
+<p>This is an HTML file served up by Flask</p>
 <ul>
     {% for post in posts -%}
     <li>{{post['user']}} - {{post['text']}}</li>
     {% endfor -%}
-</ul><br><br>
+</ul>
 <form action="" method="post">
     <label for="user">Nombre: </label>
     <input type="text" id="user" name="user" /><br>
@@ -13,5 +15,4 @@
     <input type="text" id="text" name="text" /><br>
     <input type="submit" id="send-signup" name="signup" value="Registrar" />
 </form>
-
 {% endblock %}
