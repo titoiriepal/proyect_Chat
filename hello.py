@@ -2,11 +2,12 @@ from flask import Flask, url_for, request, render_template, redirect
 from markupsafe import escape
 import time
 from refresh import refreshMsg
-
+import static/python/functionsdb
 
 
 app = Flask(__name__)
 posts = []
+
 
 @app.route("/ajax", methods=["GET", "POST"])
 def ajax():
@@ -29,7 +30,6 @@ def createJson(user, text):
         "time": time,
         "text": text
     }
-    print(f'{jsonData}')
     return jsonData
 
 
