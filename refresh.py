@@ -1,46 +1,27 @@
 import json
-
-# __debug__ = True
-# ddbbDebug = __debug__
-# noLoop = True
-
-# infiniteLoop = True
-
-# while infiniteLoop:
-#     infiniteLoop = not noLoop
+import static.python.functionsdb as db
 
 
 def refreshMsg():
-    # TODO peticion a BBDD
+    #  peticion a BBDD
 
-    response = None
+    response = db.returnMensages()
 
-    # TODO mockear el response
+    #  generar JSON desde el response de BDD
 
-    data = None
-    mensajes = []
-    with open("refreshMocker.json") as jsonFile:
-        data = json.load(jsonFile)
+    arrayRespuesta = []
+    linea = []
+    elemento = ""
+    for row in response:
+        linea.clear
+        for item in row:
+            elemento = str(item)
+            linea.append(elemento)
+            print(elemento)
+        arrayRespuesta.append(linea)
 
-    for element in data["mensajes"]:
-        mensaje = [
-            element["user"],
-            element["timestamp"],
-            element["txt"]
-            ]
-        mensajes.append(mensaje)
+    jsonToFront = json.dumps(arrayRespuesta, indent=4)
 
-    # print(mensajes)
-    response = mensajes
-
-    # TODO generar JSON desde el response de BDD
-
-    jsonToFront = json.dumps(response, indent=4)
-
-    print(jsonToFront)
-
-    # TODO enviar JSON a FRONT
+    # enviar JSON a FRONT
 
     return jsonToFront
-
-    # TODO esperar 1 segundo

@@ -2,7 +2,7 @@ from flask import Flask, url_for, request, render_template, redirect
 from markupsafe import escape
 import time
 from refresh import refreshMsg
-import static/python/functionsdb
+import static.python.functionsdb
 
 
 app = Flask(__name__)

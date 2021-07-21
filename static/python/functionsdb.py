@@ -1,12 +1,20 @@
 #!/usr/bin/python
 
 import pymysql
+from .metaDB import cadenaConexion
+
+
+def conexion():
+    return pymysql.connect(
+        host=cadenaConexion["host"],
+        user=cadenaConexion["user"],
+        passwd=cadenaConexion["passwd"],
+        db=cadenaConexion["db"]
+        )
 
 
 def introUser(name):
-    conn = pymysql.connect(
-        host="localhost", user="root",
-        passwd="krono", db="db1")
+    conn = conexion()
     try:
         with conn.cursor() as cur:
             cur.execute('INSERT INTO usuarios (nombre) values ("%s")', (name))
@@ -17,9 +25,7 @@ def introUser(name):
 
 
 def searchUser(name):
-    conn = pymysql.connect(
-        host="localhost", user="root",
-        passwd="krono", db="db1")
+    conn = conexion()
     try:
         with conn.cursor() as cur:
             cur.execute('SELECT id_usr FROM usuarios where nombre = %s', ("Fran"))
@@ -30,9 +36,7 @@ def searchUser(name):
 
 
 def introMsg(text, date, idUser):
-    conn = pymysql.connect(
-        host="localhost", user="root",
-        passwd="krono", db="db1")
+    conn = conexion()
     try:
         with conn.cursor() as cur:
             cur.execute('INSERT INTO mensajes (texto, fecha, usuario) values (%s, %s, %s)', (text, date, idUser))
@@ -43,9 +47,7 @@ def introMsg(text, date, idUser):
 
 
 def returnMensages():
-    conn = pymysql.connect(
-        host= "localhost", user="root",
-        passwd="krono", db="db1")
+    conn = conexion()
     try:
         with conn.cursor() as cur:
             cur.execute("""SELECT * FROM
