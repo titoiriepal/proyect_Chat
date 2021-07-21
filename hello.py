@@ -3,7 +3,7 @@ from markupsafe import escape
 from datetime import datetime
 from refresh import refreshMsg
 from static.python.functionsdb import *
-import pymysql
+
 
 app = Flask(__name__)
 posts = []

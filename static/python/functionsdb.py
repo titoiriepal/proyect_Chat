@@ -1,14 +1,15 @@
 #!/usr/bin/python
 
 import pymysql
+from .metaDB import cadenaConexion
 
 
 class DdbbObj:
     connection = pymysql.connect(
-        host="localhost",
-        user="root",
-        passwd="krono",
-        db="db1",
+        host=cadenaConexion["host"],
+        user=cadenaConexion["user"],
+        passwd=cadenaConexion["passwd"],
+        db=cadenaConexion["db"],
         charset='utf8mb4',
         cursorclass=pymysql.cursors.DictCursor
     )
@@ -60,13 +61,14 @@ class User(DdbbObj):
 
 
 class Msg(DdbbObj):
+
     def new(self, text, date, idUser):
         with self.connection.cursor() as cursor:
             sql = 'INSERT INTO mensajes (texto, fecha, usuario) values (%s, %s, %s)'
             cursor.execute(sql, (text, date, idUser))
             self.connection.commit()
 
-    def read():
+    def read(self):
         with self.connection.cursor() as cursor:
             sql = """SELECT * FROM
                     (
