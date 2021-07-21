@@ -3,60 +3,83 @@
 import pymysql
 
 
-def introUser(name):
-    conn = pymysql.connect(
-        host="localhost", user="root",
-        passwd="krono", db="db1")
-    try:
-        with conn.cursor() as cur:
-            cur.execute('INSERT INTO usuarios (nombre) values ("%s")', (name))
-
-    finally:
-        conn.commit()
-        conn.close()
+class DdbbObj:
+    connection = pymysql.connect(
+        host="localhost",
+        user="root",
+        passwd="krono",
+        db="db1",
+        charset='utf8mb4',
+        cursorclass=pymysql.cursors.DictCursor
+    )
 
 
-def searchUser(name):
-    conn = pymysql.connect(
-        host="localhost", user="root",
-        passwd="krono", db="db1")
-    try:
-        with conn.cursor() as cur:
-            cur.execute('SELECT id_usr FROM usuarios where nombre = %s', ("Fran"))
-            rows = cur.fetchall()
-            return rows[0]
-    finally:
-        conn.close()
+class User(DdbbObj):
+
+    def new(self, name):
+        with self.connection.cursor() as cursor:
+            # Create a new record
+            sql = "INSERT INTO usuarios (nombre) values (%s)"
+            cursor.execute(sql, (name))
+
+        # self.connection is not autocommit by default. So you must commit to save
+        # your changes.
+        self.connection.commit()
+
+    def search(self, name):
+        with self.connection.cursor() as cursor:
+            sql = "SELECT * FROM usuarios WHERE nombre = %s"
+            cursor.execute(sql, name)
+            rows = cursor.fetchall()
+
+            found = len(rows) >= 1
+            if __debug__:
+                print('============================================')
+                print(type(rows))
+                print(rows)
+
+                for user in rows:
+                    print(type(user))
+                    print(user['nombre'])
+                
+                print('Nombre encontrado' if found else 'Nombre no encontrado')
+
+            return found
+
+    def getId(self, name):
+        with self.connection.cursor() as cursor:
+            # Read a single record
+            sql = "SELECT id_usr FROM usuarios where nombre = %s"
+            cursor.execute(sql, name)
+            result = cursor.fetchone()
+
+            if __debug__:
+                print(f"{type(result)} - {result}")
+
+            return result['id_usr']
 
 
-def introMsg(text, date, idUser):
-    conn = pymysql.connect(
-        host="localhost", user="root",
-        passwd="krono", db="db1")
-    try:
-        with conn.cursor() as cur:
-            cur.execute('INSERT INTO mensajes (texto, fecha, usuario) values (%s, %s, %s)', (text, date, idUser))
+class Msg(DdbbObj):
+    def new(self, text, date, idUser):
+        with self.connection.cursor() as cursor:
+            sql = 'INSERT INTO mensajes (texto, fecha, usuario) values (%s, %s, %s)'
+            cursor.execute(sql, (text, date, idUser))
+            self.connection.commit()
 
-    finally:
-        conn.commit()
-        conn.close()
-
-
-def returnMensages():
-    conn = pymysql.connect(
-        host= "localhost", user="root",
-        passwd="krono", db="db1")
-    try:
-        with conn.cursor() as cur:
-            cur.execute("""SELECT * FROM
-            (SELECT u.nombre, m.fecha, m.texto
-            FROM usuarios AS u
-            JOIN mensajes AS m ON u.id_usr = m.usuario
-            ORDER BY m.fecha DESC
-            LIMIT 100
-            ) AS t
-            ORDER BY t.fecha ASC;""")     
-            rows = cur. fetchall()
+    def read():
+        with self.connection.cursor() as cursor:
+            sql = """SELECT * FROM
+                    (
+                        SELECT u.nombre, m.fecha, m.texto
+                        FROM usuarios AS u
+                        JOIN mensajes AS m ON u.id_usr = m.usuario
+                        ORDER BY m.fecha DESC
+                        LIMIT 100
+                    ) AS t
+                    ORDER BY t.fecha ASC;"""
+            cursor.execute(sql)
+            rows = cursor.fetchall()
+            if __debug__:
+                print(f"{type(rows)}")
+                print(rows)
             return rows
-    finally:
-        conn.close()
