@@ -54,8 +54,8 @@ def index():
         return not (len(msg) > 65535 or len(msg) == 0)
 
     if request.method == 'POST':
-        name = (request.form['user']).lower()
-        text = request.form['text']
+        name = (request.form['fname']).lower()
+        text = request.form['ftext']
 
         if not (validateName(name) and validateMsg(text)):
             return render_template("public/index.html")

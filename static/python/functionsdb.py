@@ -17,6 +17,8 @@ class DdbbObj:
 
 class User(DdbbObj):
 
+    
+
     def new(self, name):
         with self.connection.cursor() as cursor:
             # Create a new record

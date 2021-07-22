@@ -1,18 +1,36 @@
 {% extends "admin/base_template.html" %}
-{% block title %}Tutorial Flask: Miniblog{% endblock %}
+{% block title %}Shin Chat{% endblock %}
 {% block content %}
-<h1 style="color: blue">Index</h1>
-<p>This is an HTML file served up by Flask</p>
-<ul>
-    {% for post in posts -%}
-    <li>{{post['user']}} - {{post['text']}}</li>
-    {% endfor -%}
-</ul>
-<form action="" method="post">
-    <label for="user">Nombre: </label>
-    <input type="text" id="user" name="user" /><br>
-    <label for="text">Mensaje: </label>
-    <input type="text" id="text" name="text" /><br>
-    <input type="submit" id="send-signup" name="signup" value="Registrar" />
-</form>
+<div class="ventana">
+    <div class="menu">
+        <div class="titulo">
+            <div class="textoTitulo">
+                Shin Chat
+            </div>
+        </div>
+        <div class="separador">
+        </div>
+        <div>
+        </div>
+    </div>
+    <div class="ventanaChat">
+        <div class="chat">
+            <div id="textTemplate"></div>
+            <div class="chat-wrapper">
+                <div class="speech-wrapper"></div>
+            </div>
+        </div>
+        <div class="enviarMensaje">
+            <form action="" method="post">
+                <input type="text" id="fname" name="fname" placeholder="Nombre usuario" class="nombre">
+                <div class="textoMensaje">
+                    <textarea id="ftext" name="ftext" maxlength="255" rows="4"></textarea>
+                </div>
+                <div>
+                    <input type="submit" id="send-signup" name="signup" value="Registrar" class="boton" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}
