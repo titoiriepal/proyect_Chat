@@ -1,70 +1,63 @@
-input {
-    margin: 0;
-    padding: 0;
+.azul {
+    background-color: #0c2461;
 }
 
-.main-wrapper {
+.ventana {
     width: 100vw;
     height: 100vh;
-    background-color: #e75d0e;
+    background-color: #0c2461;
     display: flex;
+
 }
 
 .menu {
     background: #0a3d62;
     width: 15%;
     height: 100%;
+
 }
 
-.menu .titulo {
+.titulo {
     background: #82ccdd;
     opacity: 30%;
     height: 10%;
     min-height: 30px;
 }
 
-.menu .titulo .textoTitulo {
+.textoTitulo {
     font-size: 3vw;
     text-align: center;
 }
 
-.menu .separador {
+.separador {
     height: 82%;
-}
-
-
-.ventanaChat {
-    background: #0c2461;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-content: stretch;
-}
-
-.ventanaChat .chat {
-    margin: 0;
-    padding-top: 15px;
-    background-color: lightblue;
-    font-family: Arial, Helvetica, sans-serif;
-    background: url("../images/fondo.jpg");
-    flex-grow: 5;
 }
 
 .nombre {
     /*Posicionar abajo del cuadro "menu"*/
     background-color: #0a3d62;
-    width: 100%;
-    border: 0 none white;
-    overflow: hidden;
-    outline: none;
-    background-color: #D0D0D0;
+    margin-left: 3%;
+    width: 92%;
 }
+
+.ventanaChat {
+    background: #0c2461;
+    width: 100%;
+    height: 85%;
+
+}
+
+.chat {
+    margin: 1%;
+    padding-top: 5px;
+    height: 100%;
+    background-color: lightblue;
+}
+
 
 .mensajeEnChat {
     border-radius: 5px;
     margin: 10px;
-    flex-grow: 1;
 }
 
 .mensajeEnChat span {
@@ -72,18 +65,59 @@ input {
     border-radius: 5px;
 }
 
-.ventanaChat .enviarMensaje {
+.enviarMensaje {
+    display: flex;
     width: 100%;
     background-color: #0c2461;
-    flex-grow: 1;
-}
-
-.areaEscritura {
-    display: flex;
+    height: 5%;
 }
 
 .textoMensaje {
     background: #0c2461;
+    width: 100%;
+    margin-left: 5px;
+    margin-top: 3px;
+
+}
+
+textarea {
+    min-width: 100%;
+    resize: none;
+    justify-content: center;
+}
+
+.botonEnviar {
+    background: #888;
+    margin: 3px;
+    margin-left: 10px;
+    height: 48px;
+    width: 6%;
+    font-size: auto;
+    text-align: center;
+    padding-top: 25px;
+    cursor: pointer;
+}
+
+.botonEnviar:hover {
+    background: rgba(66, 66, 66, 0.815);
+}
+
+.adapt {
+    font-size: 1vw;
+}
+
+#fname {
+    border: 0 none white;
+    overflow: hidden;
+    padding: 0;
+    outline: none;
+    background-color: #D0D0D0;
+    resize: none;
+    height: 20px;
+    margin-right: 7px;
+}
+
+#ftext {
     border: 0 none white;
     overflow: auto;
     padding: 0;
@@ -91,41 +125,25 @@ input {
     background-color: #D0D0D0;
 }
 
-textarea {
-    min-width: 500px;
-    resize: none;
-    justify-content: center;
-    padding: 0;
-    border: none;
-}
-
-.botonEnviar {
-    background: #888;
-    text-align: center;
-    padding-top: 25px;
-    cursor: pointer;
-    justify-content: flex-end;
-}
-
-/*.botonEnviar:hover {
-    background: rgba(66, 66, 66, 0.815);
-}*/
-
-.adapt {
-    font-size: 1vw;
-}
 
 
 
-
-/*.chat {
+.chat {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
-    background: url("../img/fondo.jpg");
+    background: url("../images/fondo.jpg");
 
-}*/
+}
 
+.boton {
+    background-color: #616060;
 
+    height: 30px;
+    width: 80px;
+    font-size: auto;
+    text-align: center;
+    cursor: pointer;
+}
 
 .chat-wrapper {
     margin: 0;

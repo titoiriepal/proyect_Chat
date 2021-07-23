@@ -1,36 +1,37 @@
 {% extends "admin/base_template.html" %}
 {% block title %}Shin Chat{% endblock %}
 {% block content %}
-<div class="ventana">
+<div class=main-wrapper>
     <div class="menu">
         <div class="titulo">
             <div class="textoTitulo">
-                Shin Chat
+                <p>Shin Chat</p>
             </div>
         </div>
         <div class="separador">
         </div>
-        <div>
-        </div>
     </div>
     <div class="ventanaChat">
         <div class="chat">
-            <div id="textTemplate"></div>
             <div class="chat-wrapper">
                 <div class="speech-wrapper"></div>
             </div>
         </div>
         <div class="enviarMensaje">
-            <form action="" method="post">
-                <input type="text" id="fname" name="fname" placeholder="Nombre usuario" class="nombre">
-                <div class="textoMensaje">
-                    <textarea id="ftext" name="ftext" maxlength="255" rows="4"></textarea>
+            <form action="./enviar" method="post">
+                <div class="areaEscritura">
+                    <div>
+                        <input type="text" id="fname" name="fname" placeholder="Nombre usuario" class="nombre">
+                        <div class="textoMensaje">
+                            <textarea id="ftext" name="ftext" maxlength="255" rows="4"></textarea>
+                        </div>
+                    </div>
+                    <input type="submit" id="botonSend" name="signup" value="Registrar" class="botonSend" />
                 </div>
-                <div>
-                    <input type="submit" id="send-signup" name="signup" value="Registrar" class="boton" />
-                </div>
-            </form>
         </div>
+        </form>
     </div>
 </div>
+</div>
 {% endblock %}
+<input type="submit" id="send-signup" name="signup" value="Registrar" class="boton" />

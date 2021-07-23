@@ -9,12 +9,12 @@ def index():
     return render_template("public/index.html")
 
 
-@app.route("/ajax", methods=["GET", "POST"])
-def ajax():
-    if request.method == "POST":
-        return refreshMsg()
-    if request.method == "GET":
-        return refreshMsg()
+# @app.route("/ajax", methods=["GET", "POST"])
+# def ajax():
+#     if request.method == "POST":
+#         return refreshMsg()
+#     if request.method == "GET":
+#         return refreshMsg()
 
 
 @app.route("/about")
