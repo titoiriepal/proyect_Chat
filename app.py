@@ -59,23 +59,12 @@ def enviar():
         return not (len(msg) > 65535 or len(msg) == 0)
 
     if request.method == 'POST':
-        print("post")
-        print(request.form)
-        print(type(request.form))
-        print(type(request.form.to_dict()))
-        print((request.form.to_dict()))
-        requestFormated = request.form.to_dict()["json_string"]
-        print(type(requestFormated))
-        print(requestFormated["user"])
-        print("hey")
-        name = (requestFormated['user']).lower()
-        print(name)
-        text = requestFormated['txt']
-
-        print("validateName")
+        name = request.form.to_dict()["fname"].lower()
+        #  name = (requestFormated['user']).lower()
+        text = request.form.to_dict()["ftext"]
         if not (validateName(name) and validateMsg(text)):
-            print("if valid")
-            return render_template("public/index.html")
+            return Flask.response_class(status='*')
+            # return render_template("public/index.html")
 
         userId = getUserIdOrCreateIt(name)
         saveMesage(text, userId)
@@ -84,11 +73,8 @@ def enviar():
         # posts.append(jsonData)  # Añadimos el diccionario a una tabla
 
         next = request.args.get('next', None)
-        print("next")
         if next:
-            print("if next")
             return redirect(next)
 
-        print("salir")
-        return render_template("public/index.html", posts=posts)
-    return render_template("public/index.html", posts=posts)
+        return Flask.response_class(status=200)
+    return Flask.response_class(status='*')
