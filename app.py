@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 from flask import Flask, url_for, request, render_template, redirect
 from markupsafe import escape
 from datetime import datetime
