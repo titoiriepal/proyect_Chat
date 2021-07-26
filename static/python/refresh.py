@@ -1,6 +1,6 @@
-import json
 import static.python.functionsdb as db
-from flask import Flask, jsonify
+from flask import jsonify
+
 
 def refreshMsg():
     #  peticion a BBDD
@@ -21,12 +21,10 @@ def refreshMsg():
                 linea["txt"] = row["texto"]
 
         mensajes["mensajes"].append(linea)
-    # jsonToFront = json.dumps(mensajes, indent=4)
-
-    # enviar JSON a FRONT
 
     response = jsonify(mensajes)
     response.status_code = 200
     response.headers["Content-Type"] = "application/json; charset=utf-8"
-    return response
+    response.headers["Access-Control-Allow-Origin"] = "localhost:5000/recibir"
 
+    return response

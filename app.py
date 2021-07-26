@@ -1,28 +1,20 @@
-from flask import Flask, url_for, request, render_template, redirect
-from markupsafe import escape
 from datetime import datetime
-from refresh import refreshMsg
-from static.python.functionsdb import *
-
+from flask import Flask, request, render_template, redirect
+from flask_cors import cross_origin
+from static.python.refresh import refreshMsg
+from static.python.functionsdb import Msg, User
 
 app = Flask(__name__)
+app.config['CORS_HEADERS'] = 'Content-Type'
+
 posts = []
 
 
 @app.route("/recibir", methods=["GET", "POST"])
+@cross_origin()
 def ajax():
     if request.method in ["GET", "POST"]:
         return refreshMsg()
-
-
-def createJson(user, text):
-    time = getTime()
-    jsonData = {
-        "user": user,
-        "time": time,
-        "text": text
-    }
-    return jsonData
 
 
 def getUserIdOrCreateIt(name):
