@@ -1,11 +1,11 @@
 import os
 
 cadenaConexion = {
-    "host": "localhost",
-    "user": "root",
-    "passwd": "kronox",
-    "db": "db1",
-    "charset": 'utf8mb4'
+    "APP_PHOST": "localhost",
+    "APP_USER": "root",
+    "APP_PASSWD": "krono",
+    "APP_DB": "db1",
+    "APP_CHARSET": 'utf8mb4'
 }
 
 
