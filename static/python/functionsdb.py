@@ -37,16 +37,16 @@ class User(DdbbObj):
             rows = cursor.fetchall()
 
             found = len(rows) >= 1
-            if __debug__:
-                print('============================================')
-                print(type(rows))
-                print(rows)
+            # if __debug__:
+            #     print('============================================')
+            #     print(type(rows))
+            #     print(rows)
 
-                for user in rows:
-                    print(type(user))
-                    print(user['nombre'])
+            #     for user in rows:
+            #         print(type(user))
+            #         print(user['nombre'])
                 
-                print('Nombre encontrado' if found else 'Nombre no encontrado')
+            #     print('Nombre encontrado' if found else 'Nombre no encontrado')
 
             return found
 
@@ -57,8 +57,8 @@ class User(DdbbObj):
             cursor.execute(sql, name)
             result = cursor.fetchone()
 
-            if __debug__:
-                print(f"{type(result)} - {result}")
+            # if __debug__:
+            #     print(f"{type(result)} - {result}")
 
             return result['id_usr']
 
@@ -84,7 +84,7 @@ class Msg(DdbbObj):
                     ORDER BY t.fecha ASC;"""
             cursor.execute(sql)
             rows = cursor.fetchall()
-            if __debug__:
-                print(f"{type(rows)}")
-                print(rows)
+            # if __debug__:
+            #     print(f"{type(rows)}")
+            #     print(rows)
             return rows

@@ -1,4 +1,5 @@
 from flask import Flask, url_for, request, render_template, redirect
+import json
 from markupsafe import escape
 from datetime import datetime
 from refresh import refreshMsg
@@ -15,14 +16,14 @@ def ajax():
         return refreshMsg()
 
 
-def createJson(user, text):
-    time = getTime()
-    jsonData = {
-        "user": user,
-        "time": time,
-        "text": text
-    }
-    return jsonData
+# def createJson(user, text):
+#     time = getTime()
+#     jsonData = {
+#         "user": user,
+#         "time": time,
+#         "text": text
+#     }
+#     return jsonData
 
 
 def getUserIdOrCreateIt(name):
@@ -50,7 +51,7 @@ def index():
 
 @app.route("/enviar", methods=["GET", "POST"])
 def enviar():
-    print("enviar")
+    #  print("enviar")
 
     def validateName(name):
         return not (len(name) > 50 or len(name) == 0)
@@ -59,9 +60,20 @@ def enviar():
         return not (len(msg) > 65535 or len(msg) == 0)
 
     if request.method == 'POST':
-        name = request.form.to_dict()["fname"].lower()
-        #  name = (requestFormated['user']).lower()
-        text = request.form.to_dict()["ftext"]
+        diccionarioRequest = request.form.to_dict()
+
+        valores = json.loads(diccionarioRequest["jsonString"])
+
+        if ("fname") in diccionarioRequest:
+            name = diccionarioRequest["fname"].lower()
+            #  name = (requestFormated['user']).lower()
+            text = diccionarioRequest["ftext"]
+        elif ("user") in valores:
+            name = valores["user"].lower()
+            #  name = (requestFormated['user']).lower()
+            text = valores["txt"]
+
+
         if not (validateName(name) and validateMsg(text)):
             return Flask.response_class(status='*')
             # return render_template("public/index.html")

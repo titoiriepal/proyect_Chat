@@ -2,6 +2,7 @@ import json
 import static.python.functionsdb as db
 from flask import Flask, jsonify
 
+
 def refreshMsg():
     #  peticion a BBDD
 

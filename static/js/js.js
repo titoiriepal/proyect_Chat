@@ -6,11 +6,7 @@ function addMessages(msg_id, v) {
     const txt = this["txt"]
     const user = this["user"]
     const dateTime = this["datetime"]
-    console.log('hola')
-    console.log(this)
-    console.log(txt)
-    console.log(user)
-    console.log(dateTime)
+
 
     // let dateTimeParts = dateTime.split(/[- :]/); // regular expression split that creates array with: year, month, day, hour, minutes, seconds values
     // dateTimeParts[1]--; // monthIndex begins with 0 for January and ends with 11 for December so we need to decrement by one
@@ -93,18 +89,20 @@ window.onload = function() {
     formulario.addEventListener('click', function() {
         var usuario = document.getElementById("fname")
         var mensaje = document.getElementById("ftext")
+        let jsonString = JSON.stringify({
+            user: usuario.value,
+            txt: mensaje.value
+        })
         console.log(usuario.value)
         console.log(mensaje.value)
         $.post("/enviar", {
-            json_string: JSON.stringify({
-                user: usuario.value,
-                txt: mensaje.value
-            })
-
-
+            jsonString
         }).success(console.log("bien")).fail(console.log("mal"));
 
-        //borrar mensaje después de enviar (POST)
-        //mensaje.value = ""
-    });
+
+    })
+
+    //borrar mensaje después de enviar (POST)
+    //mensaje.value = ""
+
 }
