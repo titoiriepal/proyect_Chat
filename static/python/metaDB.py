@@ -14,9 +14,3 @@ def conexion():
         if os.environ.get(var.upper()) is not None:
             cadenaConexion[var] = os.environ.get(var.upper())
     return cadenaConexion
-
-
-
-
-
-
