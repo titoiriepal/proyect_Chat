@@ -1,16 +1,17 @@
 #!/usr/bin/python
 
 import pymysql
-from .metaDB import cadenaConexion
+from .metaDB import conexion
 
 
 class DdbbObj:
+    cadenaConexion = conexion()
     connection = pymysql.connect(
         host=cadenaConexion["host"],
         user=cadenaConexion["user"],
         passwd=cadenaConexion["passwd"],
         db=cadenaConexion["db"],
-        charset='utf8mb4',
+        charset=cadenaConexion["charset"],
         cursorclass=pymysql.cursors.DictCursor
     )
 

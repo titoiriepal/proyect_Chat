@@ -78,3 +78,7 @@ def enviar():
 
         return Flask.response_class(status=200)
     return Flask.response_class(status='*')
+
+
+if __name__ == "__main__":
+    app.run(debug=True, host='0.0.0.0')
