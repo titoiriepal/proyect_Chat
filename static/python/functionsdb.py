@@ -7,11 +7,11 @@ from .metaDB import conexion
 class DdbbObj:
     cadenaConexion = conexion()
     connection = pymysql.connect(
-        host=cadenaConexion["host"],
-        user=cadenaConexion["user"],
-        passwd=cadenaConexion["passwd"],
-        db=cadenaConexion["db"],
-        charset=cadenaConexion["charset"],
+        host=cadenaConexion["APP_HOST"],
+        user=cadenaConexion["APP_USER"],
+        passwd=cadenaConexion["APP_PASSWD"],
+        db=cadenaConexion["APP_DB"],
+        charset=cadenaConexion["APP_CHARSET"],
         cursorclass=pymysql.cursors.DictCursor
     )
 

@@ -1,7 +1,7 @@
 import os
 
 cadenaConexion = {
-    "APP_PHOST": "localhost",
+    "APP_HOST": "localhost",
     "APP_USER": "root",
     "APP_PASSWD": "krono",
     "APP_DB": "db1",
