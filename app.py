@@ -56,8 +56,8 @@ def enviar():
     if request.method == 'POST' and request.is_json \
             and "user" in request.json and "txt" in request.json:
 
-        name = request["user"].lower()
-        text = request["txt"]
+        name = request.json["user"].lower()
+        text = request.json["txt"]
 
         if not (validateName(name) and validateMsg(text)):
             return Flask.response_class(status=400)
