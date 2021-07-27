@@ -52,14 +52,10 @@ def enviar():
 
     if request.method == 'POST':
         diccionarioRequest = request.form.to_dict()
-
         valores = json.loads(diccionarioRequest["jsonString"])
-
-   
         name = valores["user"].lower()
-
         text = valores["txt"]
-
+        
         if not (validateName(name) and validateMsg(text)):
             return Flask.response_class(status='*')
 
