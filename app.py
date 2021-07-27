@@ -42,6 +42,7 @@ def index():
 
 
 @app.route("/enviar", methods=["GET", "POST"])
+@cross_origin()
 def enviar():
 
     def validateName(name):
@@ -50,14 +51,16 @@ def enviar():
     def validateMsg(msg):
         return not (len(msg) > 65535 or len(msg) == 0)
 
-    if request.method == 'POST':
-        diccionarioRequest = request.form.to_dict()
-        valores = json.loads(diccionarioRequest["jsonString"])
-        name = valores["user"].lower()
-        text = valores["txt"]
+    # if not(request.headers["Content-Type"] == "application/json; charset=utf-8"):
+    #     return "error"
+    if request.method == 'POST' and request.is_json \
+            and "user" in request.json and "txt" in request.json:
+
+        name = request["user"].lower()
+        text = request["txt"]
 
         if not (validateName(name) and validateMsg(text)):
-            return Flask.response_class(status='*')
+            return Flask.response_class(status=400)
 
         userId = getUserIdOrCreateIt(name)
         saveMesage(text, userId)
@@ -67,7 +70,7 @@ def enviar():
             return redirect(next)
 
         return Flask.response_class(status=200)
-    return Flask.response_class(status='*')
+    return Flask.response_class(status=405)
 
 
 if __name__ == "__main__":
