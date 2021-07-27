@@ -55,7 +55,7 @@ def enviar():
         valores = json.loads(diccionarioRequest["jsonString"])
         name = valores["user"].lower()
         text = valores["txt"]
-        
+
         if not (validateName(name) and validateMsg(text)):
             return Flask.response_class(status='*')
 

@@ -2,7 +2,6 @@ import static.python.functionsdb as db
 from flask import jsonify
 
 
-
 def refreshMsg():
     #  peticion a BBDD
 
@@ -26,6 +25,5 @@ def refreshMsg():
     response = jsonify(mensajes)
     response.status_code = 200
     response.headers["Content-Type"] = "application/json; charset=utf-8"
-    response.headers["Access-Control-Allow-Origin"] = "localhost:5000/recibir"
 
     return response
