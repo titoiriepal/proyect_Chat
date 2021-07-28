@@ -35,10 +35,10 @@ def saveMesage(text, userId):
     msg.new(text, ahora, userId)
 
 
-@app.route("/")
-def index():
-    print("/")
-    return render_template("public/index.html")
+# @app.route("/")
+# def index():
+#     print("/")
+#     return render_template("public/index.html")
 
 
 @app.route("/enviar", methods=["GET", "POST"])
