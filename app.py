@@ -14,8 +14,11 @@ posts = []
 @app.route("/recibir", methods=["GET", "POST"])
 @cross_origin()
 def ajax():
-    if request.method in ["GET", "POST"]:
-        return refreshMsg()
+    if request.method == 'POST' and request.is_json \
+            and "id_msg" in request.json:
+
+        id_msg = request.json["id_msg"]
+        return refreshMsg(id_msg)
 
 
 def getUserIdOrCreateIt(name):

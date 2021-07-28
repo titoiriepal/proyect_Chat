@@ -23,9 +23,6 @@ class User(DdbbObj):
             # Create a new record
             sql = "INSERT INTO usuarios (nombre) values (%s)"
             cursor.execute(sql, (name))
-
-        # self.connection is not autocommit by default. So you must commit to save
-        # your changes.
         self.connection.commit()
 
     def search(self, name):
@@ -35,17 +32,6 @@ class User(DdbbObj):
             rows = cursor.fetchall()
 
             found = len(rows) >= 1
-            # if __debug__:
-            #     print('============================================')
-            #     print(type(rows))
-            #     print(rows)
-
-            #     for user in rows:
-            #         print(type(user))
-            #         print(user['nombre'])
-                
-            #     print('Nombre encontrado' if found else 'Nombre no encontrado')
-
             return found
 
     def getId(self, name):
@@ -69,20 +55,18 @@ class Msg(DdbbObj):
             cursor.execute(sql, (text, date, idUser))
             self.connection.commit()
 
-    def read(self):
+    def read(self, id_msg):
         with self.connection.cursor() as cursor:
-            sql = """SELECT * FROM
+            sql = (f"""SELECT * FROM
                     (
-                        SELECT u.nombre, m.fecha, m.texto
+                        SELECT u.nombre, m.fecha, m.texto, m.id_msg
                         FROM usuarios AS u
                         JOIN mensajes AS m ON u.id_usr = m.usuario
+                        WHERE m.id_msg > {id_msg}
                         ORDER BY m.fecha DESC
                         LIMIT 100
                     ) AS t
-                    ORDER BY t.fecha ASC;"""
+                    ORDER BY t.fecha ASC;""")
             cursor.execute(sql)
             rows = cursor.fetchall()
-            # if __debug__:
-            #     print(f"{type(rows)}")
-            #     print(rows)
             return rows

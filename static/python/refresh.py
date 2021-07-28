@@ -2,10 +2,10 @@ import static.python.functionsdb as db
 from flask import jsonify
 
 
-def refreshMsg():
+def refreshMsg(id_msg):
     #  peticion a BBDD
 
-    response = db.Msg.read(db.Msg())
+    response = db.Msg.read(db.Msg(), id_msg)
 
     #  generar JSON desde el response de BDD
 
@@ -19,6 +19,8 @@ def refreshMsg():
                 linea["datetime"] = str(row["fecha"])
             elif (item == "texto"):
                 linea["txt"] = row["texto"]
+            elif (item == "id_msg"):
+                linea["id_msg"] = row["id_msg"]
 
         mensajes["mensajes"].append(linea)
 

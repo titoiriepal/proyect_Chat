@@ -1,1 +1,1 @@
-# proyect_Chat
+Pasos para el correcto funcionamiento de la aplicación:
