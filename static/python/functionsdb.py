@@ -4,14 +4,16 @@ from .metaDB import conexion
 
 class DdbbObj:
     cadenaConexion = conexion()
-    connection = pymysql.connect(
-        host=cadenaConexion["APP_HOST"],
-        user=cadenaConexion["APP_USER"],
-        passwd=cadenaConexion["APP_PASSWD"],
-        db=cadenaConexion["APP_DB"],
-        charset=cadenaConexion["APP_CHARSET"],
-        cursorclass=pymysql.cursors.DictCursor
-    )
+
+    def __init__(self):
+        self.connection = pymysql.connect(
+            host=self.cadenaConexion["APP_HOST"],
+            user=self.cadenaConexion["APP_USER"],
+            passwd=self.cadenaConexion["APP_PASSWD"],
+            db=self.cadenaConexion["APP_DB"],
+            charset=self.cadenaConexion["APP_CHARSET"],
+            cursorclass=pymysql.cursors.DictCursor
+        )
 
 
 class User(DdbbObj):
