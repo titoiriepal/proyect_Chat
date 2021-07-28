@@ -51,8 +51,8 @@ class Msg(DdbbObj):
 
     def new(self, text, date, idUser):
         with self.connection.cursor() as cursor:
-            sql = 'INSERT INTO mensajes (texto, fecha, usuario) values (%s, %s, %s)'
-            cursor.execute(sql, (text, date, idUser))
+            sql = 'INSERT INTO mensajes (texto, usuario) values (%s, %s)'
+            cursor.execute(sql, (text, idUser))
             self.connection.commit()
 
     def read(self, id_msg):
