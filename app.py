@@ -19,7 +19,8 @@ def ajax():
 
         id_msg = request.json["id_msg"]
         return refreshMsg(id_msg)
-
+    return Flask.response_class(status=405)
+    
 
 def getUserIdOrCreateIt(name):
     user = User()
