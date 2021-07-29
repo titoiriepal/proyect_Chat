@@ -1,13 +1,14 @@
 from datetime import datetime
 import operator
 import json
-from flask import Flask, request, render_template, redirect, jsonify
+from flask import Flask, request, render_template, redirect, jsonify, url_for
 from flask_cors import cross_origin
 from static.python.functionsdb import Msg, User
 
 app = Flask(__name__)
 app.config['CORS_HEADERS'] = 'Content-Type'
 posts = []
+
 @app.route("/borrar", methods=["POST", "GET"])
 @cross_origin()
 def borrar():
@@ -48,16 +49,18 @@ def modificar():
 @app.route("/recibir", methods=["GET", "POST"])
 @cross_origin()
 def ajax():
+    id_msg = 0
     if request.method == "POST":
-        if not request.is_json or "id_msg" not in request.json:
+        if not request.is_json:
             return Flask.response_class(status=405)
-        id_msg = request.json["id_msg"]
+        if "id_msg" in request.json:
+            id_msg = request.json["id_msg"]
 
     if request.method == "GET":
-        if not request.args.get('id_msg'):
-            return Flask.response_class(status=405)
-        id_msg = request.args.get('id_msg')
-
+        if request.args.get('id_msg'):
+            id_msg = request.args.get('id_msg')
+        # if not request.args.get('id_msg'):
+        #    return render_template('./public/recibir_get_error.html')
         #  if not request.is_json or "id_msg" not in request.json:
         #  return Flask.response_class(status=405)
 
@@ -109,6 +112,7 @@ def saveMesage(text, userId):
     msg = Msg()
     msg.new(text, ahora, userId)
 
+
 @app.route("/enviar", methods=["GET", "POST"])
 @cross_origin()
 def enviar():
@@ -119,8 +123,9 @@ def enviar():
     def validateMsg(msg):
         return not (len(msg) > 65535 or len(msg) == 0)
 
-    # if not(request.headers["Content-Type"] == "application/json; charset=utf-8"):
-    #     return "error"
+    name = ''
+    text = ''
+
     if request.method == "POST":
         if not request.is_json or "user" not in request.json or "txt" not in request.json:
             return Flask.response_class(status=405)
@@ -129,7 +134,7 @@ def enviar():
 
     if request.method == "GET":
         if not request.args.get('user') or not request.args.get('text'):
-            return Flask.response_class(status=405)
+            return render_template('./public/enviar_get_error.html')
         name = request.args.get('user')
         text = request.args.get('text')
 
