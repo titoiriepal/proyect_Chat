@@ -14,7 +14,22 @@ posts = []
 def borrar():
     if request.is_json and "id_msg" in request.json:
         id_msg = request.json["id_msg"]
-        print(f"BORRANDO id_msg: {id_msg}")
+        msg = Msg()
+        msg.delete(id_msg)
+
+        return Flask.response_class(status=200)
+
+    return Flask.response_class(status=405)
+
+
+@app.route("/modificar", methods=["POST"])
+@cross_origin()
+def modificar():
+    if request.is_json and "id_msg" in request.json and "txtChange" in request.json:
+        id_msg = request.json["id_msg"]
+        txt = request.json["txtChange"]
+        msg = Msg()
+        msg.modify(txt, id_msg)
 
         return Flask.response_class(status=200)
 
@@ -30,7 +45,7 @@ def ajax():
         id_msg = request.json["id_msg"]
         return refreshMsg(id_msg)
     return Flask.response_class(status=405)
-    
+
 
 def getUserIdOrCreateIt(name):
     user = User()

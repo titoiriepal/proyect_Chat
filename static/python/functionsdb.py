@@ -70,3 +70,19 @@ class Msg(DdbbObj):
             cursor.execute(sql)
             rows = cursor.fetchall()
             return rows
+
+    def delete(self, id_msg):
+
+        with self.connection.cursor() as cursor:
+            sql = (f"""
+                DELETE FROM mensajes WHERE id_msg = {id_msg}
+                """)
+            cursor.execute(sql)
+            self.connection.commit()
+
+    def modify(self, textChange, id_msg):
+
+        with self.connection.cursor() as cursor:
+            sql = (f"""UPDATE mensajes set texto = "{textChange}" WHERE id_msg = {id_msg};""")
+            cursor.execute(sql)
+            self.connection.commit()
