@@ -1,24 +1,61 @@
 from datetime import datetime
+import operator
 import json
-from flask import Flask, request, render_template, redirect
+from flask import Flask, request, render_template, redirect, jsonify
 from flask_cors import cross_origin
-from static.python.refresh import refreshMsg
 from static.python.functionsdb import Msg, User
 
 app = Flask(__name__)
 app.config['CORS_HEADERS'] = 'Content-Type'
-
 posts = []
 
 
-@app.route("/recibir", methods=["POST"])
+@app.route("/recibir", methods=["GET", "POST"])
 @cross_origin()
 def ajax():
-    if request.is_json and "id_msg" in request.json:
-
+    if request.method == "POST":
+        if not request.is_json or "id_msg" not in request.json:
+            return Flask.response_class(status=405)
         id_msg = request.json["id_msg"]
-        return refreshMsg(id_msg)
-    return Flask.response_class(status=405)
+
+    if request.method == "GET":
+        if not request.args.get('id_msg'):
+            return Flask.response_class(status=405)
+        id_msg = request.args.get('id_msg')
+
+        #  if not request.is_json or "id_msg" not in request.json:
+        #  return Flask.response_class(status=405)
+
+    return refreshMsg(id_msg)
+
+
+def refreshMsg(id_msg):
+    #  peticion a BBDD
+    response = Msg.read(Msg(), id_msg)
+
+    #  generar JSON desde el response de BDD
+    response.sort(key=operator.itemgetter('fecha'))
+
+    mensajes = {"mensajes": []}
+    for row in response:
+        linea = {}
+        for item in row:
+            if (item == "nombre"):
+                linea["user"] = row["nombre"]
+            elif (item == "fecha"):
+                linea["datetime"] = str(row["fecha"])
+            elif (item == "texto"):
+                linea["txt"] = row["texto"]
+            elif (item == "id_msg"):
+                linea["id_msg"] = row["id_msg"]
+
+        mensajes["mensajes"].append(linea)
+
+    response = jsonify(mensajes)
+    response.status_code = 200
+    response.headers["Content-Type"] = "application/json; charset=utf-8"
+
+    return response
 
 
 def getUserIdOrCreateIt(name):
@@ -37,14 +74,7 @@ def saveMesage(text, userId):
     msg = Msg()
     msg.new(text, ahora, userId)
 
-
-# @app.route("/")
-# def index():
-#     print("/")
-#     return render_template("public/index.html")
-
-
-@app.route("/enviar", methods=["POST"])
+@app.route("/enviar", methods=["GET", "POST"])
 @cross_origin()
 def enviar():
 
@@ -56,24 +86,30 @@ def enviar():
 
     # if not(request.headers["Content-Type"] == "application/json; charset=utf-8"):
     #     return "error"
-    if request.is_json and "user" in request.json and "txt" in request.json:
-
+    if request.method == "POST":
+        if not request.is_json or "user" not in request.json or "txt" not in request.json:
+            return Flask.response_class(status=405)
         name = request.json["user"].lower()
         text = request.json["txt"]
 
-        if not (validateName(name) and validateMsg(text)):
-            return Flask.response_class(status=400)
+    if request.method == "GET":
+        if not request.args.get('user') or not request.args.get('text'):
+            return Flask.response_class(status=405)
+        name = request.args.get('user')
+        text = request.args.get('text')
 
-        userId = getUserIdOrCreateIt(name)
-        saveMesage(text, userId)
+    if not (validateName(name) and validateMsg(text)):
+        return Flask.response_class(status=400)
 
-        next = request.args.get('next', None)
-        if next:
-            return redirect(next)
+    userId = getUserIdOrCreateIt(name)
+    saveMesage(text, userId)
 
-        return Flask.response_class(status=200)
-    return Flask.response_class(status=405)
+    next = request.args.get('next', None)
+    if next:
+        return redirect(next)
+
+    return Flask.response_class(status=200)
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0')
+    app.run(host='0.0.0.0')
