@@ -132,3 +132,4 @@ dmypy.json
 # krono DEV
 launch.sh
 workspace.code-workspace
+launch.bat
