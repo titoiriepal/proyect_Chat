@@ -1,13 +1,14 @@
-import static.python.functionsdb as db
+import operator
 from flask import jsonify
+import static.python.functionsdb as db
 
 
 def refreshMsg(id_msg):
     #  peticion a BBDD
-
     response = db.Msg.read(db.Msg(), id_msg)
 
     #  generar JSON desde el response de BDD
+    response.sort(key=operator.itemgetter('fecha'))
 
     mensajes = {"mensajes": []}
     for row in response:

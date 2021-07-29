@@ -57,16 +57,14 @@ class Msg(DdbbObj):
 
     def read(self, id_msg):
         with self.connection.cursor() as cursor:
-            sql = (f"""SELECT * FROM
-                    (
+            sql = (f"""
                         SELECT u.nombre, m.fecha, m.texto, m.id_msg
                         FROM usuarios AS u
                         JOIN mensajes AS m ON u.id_usr = m.usuario
                         WHERE m.id_msg > {id_msg}
                         ORDER BY m.fecha DESC
                         LIMIT 100
-                    ) AS t
-                    ORDER BY t.fecha ASC;""")
+                    """)
             cursor.execute(sql)
             rows = cursor.fetchall()
             return rows
