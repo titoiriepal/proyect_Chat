@@ -9,6 +9,16 @@ app = Flask(__name__)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 posts = []
+@app.route("/borrar", methods=["POST"])
+@cross_origin()
+def borrar():
+    if request.is_json and "id_msg" in request.json:
+        id_msg = request.json["id_msg"]
+        print(f"BORRANDO id_msg: {id_msg}")
+
+        return Flask.response_class(status=200)
+
+    return Flask.response_class(status=405)
 
 
 @app.route("/recibir", methods=["GET", "POST"])
