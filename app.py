@@ -11,11 +11,10 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 posts = []
 
 
-@app.route("/recibir", methods=["GET", "POST"])
+@app.route("/recibir", methods=["POST"])
 @cross_origin()
 def ajax():
-    if request.method == 'POST' and request.is_json \
-            and "id_msg" in request.json:
+    if request.is_json and "id_msg" in request.json:
 
         id_msg = request.json["id_msg"]
         return refreshMsg(id_msg)
@@ -45,7 +44,7 @@ def saveMesage(text, userId):
 #     return render_template("public/index.html")
 
 
-@app.route("/enviar", methods=["GET", "POST"])
+@app.route("/enviar", methods=["POST"])
 @cross_origin()
 def enviar():
 
@@ -57,8 +56,7 @@ def enviar():
 
     # if not(request.headers["Content-Type"] == "application/json; charset=utf-8"):
     #     return "error"
-    if request.method == 'POST' and request.is_json \
-            and "user" in request.json and "txt" in request.json:
+    if request.is_json and "user" in request.json and "txt" in request.json:
 
         name = request.json["user"].lower()
         text = request.json["txt"]
