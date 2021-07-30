@@ -9,6 +9,11 @@ app = Flask(__name__)
 app.config['CORS_HEADERS'] = 'Content-Type'
 posts = []
 
+@app.route("/")
+@cross_origin()
+def index():
+    return render_template('./public/index.html')
+    
 
 @app.route("/borrar", methods=["POST", "GET"])
 @cross_origin()

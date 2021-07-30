@@ -1,0 +1,15 @@
+{%extends 'admin/base_template.html'%}
+{% block title %}Shin-Chat Server{% endblock %}
+{% block content %}
+<p>
+    <h2>Bienvenido al servidor de Shin-Chat. Para interactuar con nosotros, por favor, sigue las siguientes instrucciones:</h2>
+</p>
+<p>
+    Para enviar un mensaje, escribe:<br>
+    (RUTA DEL SERVIDOR)/enviar?user=(NOMBRE DE USUARIO)&text=(MENSAJE A ENVIAR)
+    Para recibir los mensajes del servidor en modo Json escribe:<br>
+    (RUTA DEL SERVIDOR)/recibir?id_msg=(NÚMERO DE MENSAJE DESDE EL QUE RECIBIR)<br>
+    Si el número de mensaje no es válido o no existe recibiras los últimos 100 mensajes
+</p>
+
+{% endblock %}
