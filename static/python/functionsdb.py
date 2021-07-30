@@ -84,3 +84,13 @@ class Msg(DdbbObj):
             sql = (f"""UPDATE mensajes set texto = "{textChange}" WHERE id_msg = {id_msg};""")
             cursor.execute(sql)
             self.connection.commit()
+
+    def searchId(self, id_msg):
+        with self.connection.cursor() as cursor:
+            sql = (f"SELECT count(*) AS count FROM mensajes WHERE id_msg={id_msg}")
+
+            print(sql)
+            cursor.execute(sql)
+            rows = cursor.fetchall()
+            count = rows[0]['count']
+        return (count)

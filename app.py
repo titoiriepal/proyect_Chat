@@ -9,25 +9,27 @@ app = Flask(__name__)
 app.config['CORS_HEADERS'] = 'Content-Type'
 posts = []
 
+
 @app.route("/")
 @cross_origin()
 def index():
     return render_template('./public/index.html')
-    
+
 
 @app.route("/borrar", methods=["POST", "GET"])
 @cross_origin()
 def borrar():
+    msg = Msg()
     if request.method == 'POST':
         if not request.is_json or "id_msg" not in request.json:
             return Flask.response_class(status=405)
         id_msg = request.json["id_msg"]
 
     if request.method == "GET":
-        if not request.args.get('id_msg'):
-            return Flask.response_class(status=405)
+        if not request.args.get('id_msg') or msg.searchId(request.args.get('id_msg')) == 0:
+            return Flask.response_class(status=406)
         id_msg = request.args.get('id_msg')
-    msg = Msg()
+
     msg.delete(id_msg)
     return Flask.response_class(status=200)
 
@@ -35,19 +37,21 @@ def borrar():
 @app.route("/modificar", methods=["POST", "GET"])
 @cross_origin()
 def modificar():
+    msg = Msg()
     if request.method == 'POST':
         if not request.is_json \
                 or "id_msg" not in request.json or "txtChange" not in request.json:
-            return Flask.response_class(status=405)
+            return Flask.response_class(status=404)
         id_msg = request.json["id_msg"]
         txt = request.json["txtChange"]
 
     if request.method == "GET":
-        if not request.args.get('id_msg') or not request.args.get('txtChange'):
-            return Flask.response_class(status=405)
+        if not request.args.get('id_msg') or not request.args.get('txtChange')\
+                or msg.searchId(request.args.get('id_msg')) == 0:
+            return Flask.response_class(status=406)
         id_msg = request.args.get('id_msg')
         txt = request.args.get('txtChange')
-    msg = Msg()
+
     msg.modify(txt, id_msg)
     return Flask.response_class(status=200)
 
