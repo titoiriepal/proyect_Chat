@@ -9,6 +9,7 @@ app = Flask(__name__)
 app.config['CORS_HEADERS'] = 'Content-Type'
 posts = []
 
+
 @app.route("/borrar", methods=["POST", "GET"])
 @cross_origin()
 def borrar():
@@ -24,6 +25,7 @@ def borrar():
     msg = Msg()
     msg.delete(id_msg)
     return Flask.response_class(status=200)
+
 
 @app.route("/modificar", methods=["POST", "GET"])
 @cross_origin()
@@ -45,7 +47,6 @@ def modificar():
     return Flask.response_class(status=200)
 
 
-
 @app.route("/recibir", methods=["GET", "POST"])
 @cross_origin()
 def ajax():
@@ -59,6 +60,10 @@ def ajax():
     if request.method == "GET":
         if request.args.get('id_msg'):
             id_msg = request.args.get('id_msg')
+            try:
+                prueba = int(id_msg)
+            except ValueError:
+                id_msg = '0'
         # if not request.args.get('id_msg'):
         #    return render_template('./public/recibir_get_error.html')
         #  if not request.is_json or "id_msg" not in request.json:
@@ -72,7 +77,11 @@ def refreshMsg(id_msg):
     response = Msg.read(Msg(), id_msg)
 
     #  generar JSON desde el response de BDD
-    response.sort(key=operator.itemgetter('fecha'))
+    try:
+        response.sort(key=operator.itemgetter('fecha'))
+    except AttributeError:
+        response = Msg.read(Msg(), '0')
+        response.sort(key=operator.itemgetter('fecha'))
 
     mensajes = {"mensajes": []}
     for row in response:
