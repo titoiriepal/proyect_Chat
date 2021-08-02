@@ -9,11 +9,12 @@ app = Flask(__name__)
 app.config['CORS_HEADERS'] = 'Content-Type'
 posts = []
 
+
 @app.route("/")
 @cross_origin()
 def index():
     return render_template('./public/index.html')
-    
+
 
 @app.route("/borrar", methods=["POST", "GET"])
 @cross_origin()
@@ -68,40 +69,42 @@ def ajax():
             try:
                 prueba = int(id_msg)
             except ValueError:
-                id_msg = '0'
+                return Flask.response_class(status=406)
         # if not request.args.get('id_msg'):
         #    return render_template('./public/recibir_get_error.html')
         #  if not request.is_json or "id_msg" not in request.json:
         #  return Flask.response_class(status=405)
 
-    return refreshMsg(id_msg)
+    respuesta = refreshMsg(id_msg)
+    if respuesta is None:
+        return Flask.response_class(status=406)
+    else:
+        return respuesta
 
 
 def refreshMsg(id_msg):
     #  peticion a BBDD
+    mensajes = {"mensajes": []}
     response = Msg.read(Msg(), id_msg)
 
     #  generar JSON desde el response de BDD
     try:
         response.sort(key=operator.itemgetter('fecha'))
+        for row in response:
+            linea = {}
+            for item in row:
+                if (item == "nombre"):
+                    linea["user"] = row["nombre"]
+                elif (item == "fecha"):
+                    linea["datetime"] = str(row["fecha"])
+                elif (item == "texto"):
+                    linea["txt"] = row["texto"]
+                elif (item == "id_msg"):
+                    linea["id_msg"] = row["id_msg"]
+
+            mensajes["mensajes"].append(linea)
     except AttributeError:
-        response = Msg.read(Msg(), '0')
-        response.sort(key=operator.itemgetter('fecha'))
-
-    mensajes = {"mensajes": []}
-    for row in response:
-        linea = {}
-        for item in row:
-            if (item == "nombre"):
-                linea["user"] = row["nombre"]
-            elif (item == "fecha"):
-                linea["datetime"] = str(row["fecha"])
-            elif (item == "texto"):
-                linea["txt"] = row["texto"]
-            elif (item == "id_msg"):
-                linea["id_msg"] = row["id_msg"]
-
-        mensajes["mensajes"].append(linea)
+        response = ''
 
     response = jsonify(mensajes)
     response.status_code = 200
